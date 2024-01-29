@@ -50,32 +50,45 @@ return require("packer").startup(function()
 
 	use({
 		"nvim-treesitter/nvim-treesitter",
-		event = "BufRead",
+		-- event = "BufRead",
 		config = function()
 			require("plugins.treesitter")
 		end,
 	})
 
 	use({
-		"windwp/nvim-ts-autotag", --autoclose html like tags
-		after = "nvim-treesitter",
+		"windwp/nvim-ts-autotag",
+		branch = "main",
 		config = function()
-			require("nvim-ts-autotag").setup()
+			require("nvim-ts-autotag").setup({
+				filetypes = {
+					"html",
+					"javascript",
+					"typescript",
+					"javascriptreact",
+					"typescriptreact",
+					"svelte",
+					"tsx",
+					"jsx",
+					"templ",
+				},
+			})
 		end,
 	})
-
-	use({
-		"hrsh7th/nvim-cmp",
-		config = function()
-			require("plugins.cmp")
-		end,
-	})
-
 	use({
 		"windwp/nvim-autopairs", --auto close special chars
 		after = "nvim-cmp",
 		config = function()
 			require("nvim-autopairs").setup({})
+		end,
+	})
+
+	use({ "andymass/vim-matchup", event = "CursorMoved" }) --highlight matching tags
+
+	use({
+		"hrsh7th/nvim-cmp",
+		config = function()
+			require("plugins.cmp")
 		end,
 	})
 
@@ -86,7 +99,6 @@ return require("packer").startup(function()
 			require("plugins.cursorline")
 		end,
 	})
-	use({ "andymass/vim-matchup", event = "CursorMoved" }) --highlight matching tags
 	use("PeterRincker/vim-searchlight") --custom search highlights
 
 	use({
@@ -120,6 +132,12 @@ return require("packer").startup(function()
 	-- themes
 	use("navarasu/onedark.nvim")
 	use("shaunsingh/nord.nvim")
+	use({
+		"AlexvZyl/nordic.nvim",
+		config = function()
+			require("plugins.nordic")
+		end,
+	})
 
 	-- smooth scroll
 	use({

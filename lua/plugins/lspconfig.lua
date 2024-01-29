@@ -1,3 +1,4 @@
+local nvim_lsp = require("lspconfig")
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
@@ -6,6 +7,24 @@ vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 
+local custom_format = function()
+	if vim.bo.filetype == "templ" then
+		local bufnr = vim.api.nvim_get_current_buf()
+		local filename = vim.api.nvim_buf_get_name(bufnr)
+		local cmd = "templ fmt " .. vim.fn.shellescape(filename)
+
+		vim.fn.jobstart(cmd, {
+			on_exit = function()
+				-- Reload the buffer only if it's still the current buffer
+				if vim.api.nvim_get_current_buf() == bufnr then
+					vim.cmd("e!")
+				end
+			end,
+		})
+	else
+		vim.lsp.buf.format()
+	end
+end
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
@@ -34,6 +53,9 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<space>f", function()
 		vim.lsp.buf.format({ async = true })
 	end, bufopts)
+	local opts = { buffer = bufnr, remap = false }
+	-- other configuration options
+	vim.keymap.set("n", "<leader>lf", custom_format, opts)
 end
 
 local lsp_flags = {
@@ -60,36 +82,40 @@ M.capabilities.textDocument.completion.completionItem = {
 		},
 	},
 }
-
-require("lspconfig")["pyright"].setup({
+nvim_lsp["pyright"].setup({
 	on_attach = on_attach,
 	flags = lsp_flags,
 })
-require("lspconfig")["tsserver"].setup({
+nvim_lsp["tsserver"].setup({
 	on_attach = on_attach,
 	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
 	flags = lsp_flags,
 	capabilities = M.capabilities,
 })
-require("lspconfig")["svelte"].setup({
+nvim_lsp["svelte"].setup({
 	on_attach = on_attach,
 	filetypes = { "svelte" },
 	flags = lsp_flags,
 	capabilities = M.capabilities,
 })
-require("lspconfig").gopls.setup({
+nvim_lsp["gopls"].setup({
 	on_attach = on_attach,
 	flags = lsp_flags,
 	capabilities = M.capabilities,
+	codelenses = {
+		generate = true, -- show the `go generate` lens.
+		gc_details = true, -- show a code lens toggling the display of gc's choices.
+		test = true,
+		upgrade_dependency = true,
+		tidy = true,
+	},
 })
-require("lspconfig").templ.setup({
+nvim_lsp["templ"].setup({
 	on_attach = on_attach,
-	flags = lsp_flags,
 	capabilities = M.capabilities,
-	filetypes = { "templ" },
 })
 
-require("lspconfig")["rust_analyzer"].setup({
+nvim_lsp["rust_analyzer"].setup({
 	on_attach = on_attach,
 	flags = lsp_flags,
 	-- Server-specific settings...
@@ -97,14 +123,18 @@ require("lspconfig")["rust_analyzer"].setup({
 		["rust-analyzer"] = {},
 	},
 })
-require("lspconfig").tailwindcss.setup({
+nvim_lsp.tailwindcss.setup({
 	on_attach = on_attach,
 	flags = lsp_flags,
 	capabilities = M.capabilities,
+	filetypes = { "templ", "html", "javascript", "javascriptreact", "typescript", "typescriptreact" },
+	init_options = { userLanguages = { templ = "html" } },
 })
-require("lspconfig").html.setup({
+nvim_lsp.html.setup({
 	on_attach = on_attach,
 	flags = lsp_flags,
 	capabilities = M.capabilities,
+	filetypes = { "html", "templ" },
 })
-require("lspconfig").bashls.setup({})
+nvim_lsp.bashls.setup({})
+vim.filetype.add({ extension = { templ = "templ" } })
