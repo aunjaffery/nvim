@@ -16,6 +16,7 @@ map("n", "H", "<C-w>h", { silent = true })
 map("n", "L", "<C-w>l", { silent = true })
 -- go error snippet
 vim.keymap.set("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn err<Esc>")
+vim.keymap.set("n", "<leader>ef", 'ofmt.Printf("%+v\\n",)<Esc>')
 
 --format the document
 map("n", "<Leader>f", ":Neoformat<CR>", { silent = false })

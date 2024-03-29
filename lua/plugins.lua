@@ -130,7 +130,8 @@ return require("packer").startup(function()
 	})
 
 	-- themes
-	use("navarasu/onedark.nvim")
+	-- use("navarasu/onedark.nvim")
+	use("olimorris/onedarkpro.nvim")
 	use("shaunsingh/nord.nvim")
 	use({
 		"AlexvZyl/nordic.nvim",
