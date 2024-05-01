@@ -1,6 +1,2 @@
-require("plugins")
-require("keymappings")
-require("settings")
-require("colorscheme")
--- print(vim.fn.printf('Hello from %s', 'Lua'))
-vim.print("qwe")
+require("aunox.core")
+require("aunox.lazy")
