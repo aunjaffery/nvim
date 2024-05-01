@@ -27,3 +27,4 @@ opt.splitbelow = true -- split horizontal window to the bottom
 opt.updatetime = 300
 
 --opt.showtabline = 2
+vim.filetype.add({ extension = { templ = "templ" } })
