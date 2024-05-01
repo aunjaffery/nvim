@@ -28,10 +28,5 @@ map("v", "c", '"_c', { silent = true })
 map("n", "<Leader>d", '""d', { silent = true })
 map("v", "<Leader>d", '""d', { silent = true })
 
---terminal toggle
-map("n", "st", ":ToggleTerm<CR>", { silent = true })
-map("t", "<Esc>", "<C-\\><C-n>", { silent = true })
-map("t", "<expr><C-R>", "'<C-\\><C-N>\"'.nr2char(getchar()).'pi'", { silent = true })
-
 pcall(vim.cmd, "command! W w")
 pcall(vim.cmd, "command!-bang Q q<bang>")
