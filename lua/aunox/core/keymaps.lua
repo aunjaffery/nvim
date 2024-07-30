@@ -30,3 +30,16 @@ map("v", "<Leader>d", '""d', { silent = true })
 
 pcall(vim.cmd, "command! W w")
 pcall(vim.cmd, "command!-bang Q q<bang>")
+
+local function toggle_filetype()
+	local current_filetype = vim.bo.filetype
+	if current_filetype == "html" then
+		vim.bo.filetype = "templ"
+	elseif current_filetype == "templ" then
+		vim.bo.filetype = "html"
+	else
+		print("Current filetype is not html or templ")
+	end
+end
+
+map("n", "<leader>cf", toggle_filetype, { desc = "Toggle between html and templ filetypes" })
