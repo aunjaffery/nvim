@@ -9,6 +9,7 @@ map("n", "L", "<C-w>l", { silent = true })
 -- go error snippet
 map("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn err<Esc>")
 map("n", "<leader>ef", 'ofmt.Printf("%+v\\n",)<Esc>')
+map("n", "<leader>ft", 'ofmt.Println()<Esc>')
 
 --Move selected line
 map("v", "K", ":move '<-2<CR>gv=gv", { noremap = true, silent = true })
