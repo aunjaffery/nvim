@@ -5,6 +5,10 @@ return {
 		config = true,
 	},
 	{
+		"karb94/neoscroll.nvim",
+		opts = {},
+	},
+	{
 		-- inserting or changing "" etc...
 		"kylechui/nvim-surround",
 		version = "*",
