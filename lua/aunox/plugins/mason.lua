@@ -30,6 +30,7 @@ return {
 				"gopls",
 				"templ",
 				"htmx",
+				"pyright",
 			},
 		})
 
