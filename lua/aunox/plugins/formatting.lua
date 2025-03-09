@@ -18,7 +18,7 @@ return {
 				markdown = { "prettier" },
 				lua = { "stylua" },
 				templ = { "templ" },
-				python = { "isort", "black" },
+				python = { "black" },
 				go = { "gofmt" },
 			},
 			format_on_save = nil,

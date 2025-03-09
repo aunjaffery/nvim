@@ -9,6 +9,11 @@ return {
 		opts = {},
 	},
 	{
+		"towolf/vim-helm",
+		ft = "helm",
+		config = function() end,
+	},
+	{
 		-- inserting or changing "" etc...
 		"kylechui/nvim-surround",
 		version = "*",
