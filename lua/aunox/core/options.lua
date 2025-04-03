@@ -45,3 +45,18 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 		vim.fn.jobstart("alacritty msg --socket $ALACRITTY_SOCKET config -w $ALACRITTY_WINDOW_ID -r", { detach = true })
 	end,
 })
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	callback = function()
+		-- check if treesitter has parser
+		if require("nvim-treesitter.parsers").has_parser() then
+			-- use treesitter folding
+			vim.opt.foldmethod = "expr"
+			vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+		else
+			-- use alternative foldmethod
+			vim.opt.foldmethod = "syntax"
+		end
+	end,
+})
+vim.opt.foldenable = false
+vim.opt.foldlevel = 20
